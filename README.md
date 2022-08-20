@@ -25,7 +25,7 @@ node ./main.js
 
 #### Rule set
 
-The Rule set is a seris of rules that defines how to trigger the bot and how the bot replies. You can configurate the rule set by editing ```rule_sets.json```. 
+The Rule set is a series of rules that defines how to trigger the bot and how the bot replies. You can configurate the rule set by editing ```rule_sets.json```. 
 
 > The value of ```when_triggered_execute_script``` doesn't need to add ```.js``` prefix, but you need to put the js file with prefix in the ```scripts``` folder.
 
