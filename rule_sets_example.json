@@ -1,0 +1,21 @@
+{
+    "exclude_group_number_array":[],
+    "rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group": [
+        {
+            "a_trigger_word": "hello bot",
+            "when_triggered_execute_script": "Hello"
+        }
+    ],
+    "rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot":[
+    ],
+    "rules_of_triggered_by_someone_at_bot":[
+        {
+            "a_trigger_word": "help",
+            "when_triggered_execute_script": "GetHelp"
+        },
+        {
+            "a_trigger_word": "version",
+            "when_triggered_execute_script": "GetVersion"
+        }
+    ]
+}

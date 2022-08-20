@@ -1,0 +1,5 @@
+node_modules/
+data/
+scripts/
+config.json
+rule_sets.json

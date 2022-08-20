@@ -1,0 +1,1 @@
+msg.reply("Hello, my friend");
