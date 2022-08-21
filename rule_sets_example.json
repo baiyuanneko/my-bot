@@ -17,5 +17,12 @@
             "a_trigger_word": "version",
             "when_triggered_execute_script": "GetVersion"
         }
+    ],
+    "rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group": [
+        {
+            "a_trigger_word": "TestTriggerWord",
+            "when_triggered_execute_script": "Hello",
+            "can_be_triggered_by_person_array":[]
+        }
     ]
 }

@@ -133,6 +133,19 @@ switch (login_via) {
                         }
                     }
                 }
+
+                if(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group == null){
+
+                }else{
+                    for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group.length; ruleset_forvar++) {
+                        console.log(1);
+                        if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar].a_trigger_word) !== -1) {
+                            if(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar].can_be_triggered_by_person_array.indexOf(msg.sender.user_id) !== -1){
+                                eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                            }
+                        }
+                    }
+                }
             })
 
         }
