@@ -1,4 +1,4 @@
-const { createClient,segment } = require("oicq");
+const { createClient, segment } = require("oicq");
 const { readFileSync, writeFileSync, existsSync, read } = require("fs");
 
 
@@ -22,7 +22,7 @@ try {
 const configuration = JSON.parse(configuration_raw);
 
 
-if (configuration.account_number == null || configuration.login_via == null || configuration.owner == null) {
+if (typeof configuration.account_number === "undefined" || typeof configuration.login_via === "undefined" || typeof configuration.owner === "undefined") {
     console.log("[ERROR] Cannot found account_number or login_via section in the configuration file! Exiting...");
     process.exit();
 }
@@ -82,66 +82,72 @@ switch (login_via) {
 
             bot_client.on("message.group", function (msg) {
 
-                if (ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group == null) {
-                } else {
-                    for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group.length; ruleset_forvar++) {
-                        if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group[ruleset_forvar].a_trigger_word) !== -1) {
-                            eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
-                        }
-                    }
-                }
+                if (typeof ruleset.only_works_in_group_number_array === "undefined" || ruleset.only_works_in_group_number_array.length === 0 || ruleset.only_works_in_group_number_array.indexOf(msg.group.group_id) !== -1) {
 
-                if (ruleset.rules_of_triggered_by_someone_at_bot == null) {
+                    if (typeof ruleset.exclude_group_number_array === "undefined" || ruleset.exclude_group_number_array.length === 0 || ruleset.exclude_group_number_array.indexOf(msg.group.group_id) === -1) {
 
-                } else {
-                    if(msg.atme === true){
-                        for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_someone_at_bot.length; ruleset_forvar++) {
-                            if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_someone_at_bot[ruleset_forvar].a_trigger_word) !== -1) {
-                                eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_someone_at_bot[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                        if (typeof ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group === "undefined") {
+                        } else {
+                            for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group.length; ruleset_forvar++) {
+                                if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group[ruleset_forvar].a_trigger_word) !== -1) {
+                                    eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                                }
                             }
                         }
 
-                        if(msg.sender.user_id === configuration.owner){
-                            if (msg.raw_message.indexOf("debug:update-ruleset") !== -1) {
-                                ruleset = JSON.parse(readFileSync(__dirname + "/rule_sets.json", "utf-8"));
-                                let currentDate = new Date();
-                                msg.reply(`[INFO] Ruleset is manually updated at ${currentDate}`);
-                            }
-        
-                            if(msg.raw_message.indexOf("debug:show-ruleset") !== -1){
-                                msg.reply("[INFO] "+JSON.stringify(ruleset));
-                            }
-        
-                            if(msg.raw_message.indexOf("debug:stop-now") !== -1){
-                                msg.reply("[INFO] Interrupt signal received, the bot is going to be stopped in 2 seconds");
-                                setTimeout(function(){
-                                    process.exit();
-                                },2000);
+                        if (typeof ruleset.rules_of_triggered_by_someone_at_bot === "undefined") {
+
+                        } else {
+                            if (msg.atme === true) {
+                                for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_someone_at_bot.length; ruleset_forvar++) {
+                                    if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_someone_at_bot[ruleset_forvar].a_trigger_word) !== -1) {
+                                        eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_someone_at_bot[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                                    }
+                                }
+
+                                if (msg.sender.user_id === configuration.owner) {
+                                    if (msg.raw_message.indexOf("debug:update-ruleset") !== -1) {
+                                        ruleset = JSON.parse(readFileSync(__dirname + "/rule_sets.json", "utf-8"));
+                                        let currentDate = new Date();
+                                        msg.reply(`[INFO] Ruleset is manually updated at ${currentDate}`);
+                                    }
+
+                                    if (msg.raw_message.indexOf("debug:show-ruleset") !== -1) {
+                                        msg.reply("[INFO] " + JSON.stringify(ruleset));
+                                    }
+
+                                    if (msg.raw_message.indexOf("debug:stop-now") !== -1) {
+                                        msg.reply("[INFO] Interrupt signal received, the bot is going to be stopped in 2 seconds");
+                                        setTimeout(function () {
+                                            process.exit();
+                                        }, 2000);
+                                    }
+                                }
                             }
                         }
-                    }
-                }
 
-                if(msg.sender.user_id === configuration.owner){
-                    if(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot == null){
+                        if (msg.sender.user_id === configuration.owner) {
+                            if (typeof ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot === "undefined") {
 
-                    }else{
-                        for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot.length; ruleset_forvar++) {
-                            if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot[ruleset_forvar].a_trigger_word) !== -1) {
-                                eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                            } else {
+                                for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot.length; ruleset_forvar++) {
+                                    if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot[ruleset_forvar].a_trigger_word) !== -1) {
+                                        eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_owner_of_bot[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                                    }
+                                }
                             }
                         }
-                    }
-                }
 
-                if(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group == null){
+                        if (typeof ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group === "undefined") {
 
-                }else{
-                    for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group.length; ruleset_forvar++) {
-                        console.log(1);
-                        if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar].a_trigger_word) !== -1) {
-                            if(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar].can_be_triggered_by_person_array.indexOf(msg.sender.user_id) !== -1){
-                                eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                        } else {
+                            for (let ruleset_forvar = 0; ruleset_forvar < ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group.length; ruleset_forvar++) {
+                                console.log(1);
+                                if (msg.raw_message.indexOf(ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar].a_trigger_word) !== -1) {
+                                    if (ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar].can_be_triggered_by_person_array.indexOf(msg.sender.user_id) !== -1) {
+                                        eval(readFileSync(__dirname + "/scripts/" + ruleset.rules_of_triggered_by_messages_including_specific_words_sent_by_specific_person_in_a_group[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8"));
+                                    }
+                                }
                             }
                         }
                     }
@@ -163,5 +169,5 @@ switch (login_via) {
 }
 
 process.on("unhandledRejection", (rejection_reason, rejection_promise) => {
-	console.log(`[ERROR] Unhandled Rejection: ${rejection_reason}`);
+    console.log(`[ERROR] Unhandled Rejection: ${rejection_reason}`);
 })

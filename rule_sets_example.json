@@ -1,4 +1,5 @@
 {
+    "only_works_in_group_number_array":[],
     "exclude_group_number_array":[],
     "rules_of_triggered_by_messages_including_specific_words_sent_by_everyone_in_a_group": [
         {
