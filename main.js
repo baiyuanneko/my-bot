@@ -53,6 +53,16 @@ if (existsSync(__dirname + "/rule_sets.json") === false) {
 
         console.log(`[INFO] Ruleset is automatically updated at ${currentDate}`);
 
+        if(typeof ruleset.every_20_minutes_has_possibility_to_trigger_script === "undefined"){
+            
+        }else{
+            for(let ruleset_forvar=0;ruleset_forvar<ruleset.every_20_minutes_has_possibility_to_trigger_script.length;ruleset_forvar++){
+                if(judgeWhetherTriggerPossibility(ruleset.every_20_minutes_has_possibility_to_trigger_script[ruleset_forvar]["possibility_percentage"])){
+                    eval(readFileSync(__dirname + "/scripts/" + ruleset.every_20_minutes_has_possibility_to_trigger_script[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8")); 
+                }
+            }
+        }
+
     }, 1200000);
 
 
@@ -70,20 +80,7 @@ switch (login_via) {
 
             // create bot client
 
-            const bot_client = createClient(account_number, { platform: 3 });
-
-            setInterval(function(){
-                if(typeof ruleset.every_20_minutes_has_possibility_to_trigger_script === "undefined"){
-            
-                }else{
-                    for(let ruleset_forvar=0;ruleset_forvar<ruleset.every_20_minutes_has_possibility_to_trigger_script.length;ruleset_forvar++){
-                        if(judgeWhetherTriggerPossibility(ruleset.every_20_minutes_has_possibility_to_trigger_script[ruleset_forvar]["possibility_percentage"])){
-                            eval(readFileSync(__dirname + "/scripts/" + ruleset.every_20_minutes_has_possibility_to_trigger_script[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8")); 
-                        }
-                    }
-                }
-            },1200000)
-
+            bot_client = createClient(account_number, { platform: 3 });
 
             // login bot client via qrcode
 
