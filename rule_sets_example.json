@@ -25,5 +25,11 @@
             "when_triggered_execute_script": "Hello",
             "can_be_triggered_by_person_array":[]
         }
+    ],
+    "every_20_minutes_has_possibility_to_trigger_script": [
+        {
+            "possibility_percentage": 0,
+            "when_triggered_execute_script": "Hello"
+        }
     ]
 }

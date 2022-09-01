@@ -29,6 +29,14 @@ if (typeof configuration.account_number === "undefined" || typeof configuration.
 
 // load ruleset file
 
+const judgeWhetherTriggerPossibility = function (possibility_percentage) {
+    if (Math.ceil(Math.random() * 100) >= possibility_percentage) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 if (existsSync(__dirname + "/rule_sets.json") === false) {
     console.log("[ERROR] Cannot found a valid rule_sets.json inside the bot directory! Exiting...");
     process.exit();
@@ -46,6 +54,8 @@ if (existsSync(__dirname + "/rule_sets.json") === false) {
         console.log(`[INFO] Ruleset is automatically updated at ${currentDate}`);
 
     }, 1200000);
+
+
 }
 
 const account_number = parseInt(configuration.account_number);
@@ -61,6 +71,18 @@ switch (login_via) {
             // create bot client
 
             const bot_client = createClient(account_number, { platform: 3 });
+
+            setInterval(function(){
+                if(typeof ruleset.every_20_minutes_has_possibility_to_trigger_script === "undefined"){
+            
+                }else{
+                    for(let ruleset_forvar=0;ruleset_forvar<ruleset.every_20_minutes_has_possibility_to_trigger_script.length;ruleset_forvar++){
+                        if(judgeWhetherTriggerPossibility(ruleset.every_20_minutes_has_possibility_to_trigger_script[ruleset_forvar]["possibility_percentage"])){
+                            eval(readFileSync(__dirname + "/scripts/" + ruleset.every_20_minutes_has_possibility_to_trigger_script[ruleset_forvar]["when_triggered_execute_script"] + ".js", "utf-8")); 
+                        }
+                    }
+                }
+            },1200000)
 
 
             // login bot client via qrcode
