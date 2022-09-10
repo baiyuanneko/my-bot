@@ -6,7 +6,7 @@
 ### init the bot
 
 ```sh
-git clone https://github.com/baiyang-lzy/my-bot
+git clone https://github.com/baiyuanneko/my-bot
 cd my-bot
 mv ./scripts_example scripts
 mv ./config_example.json config.json
@@ -18,7 +18,7 @@ Then use your favourite editor to edit ```config.json```, change the value of ``
 ### start the bot
 
 ```sh
-node ./main.js
+npm run start
 ```
 
 ### use the bot

@@ -7,17 +7,18 @@
   "main": "main.js",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./main.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/baiyang-lzy/my-bot.git"
   },
-  "author": "白羊李志远",
+  "author": "柏园猫",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/baiyang-lzy/my-bot/issues"
+    "url": "https://github.com/baiyuanneko/my-bot/issues"
   },
-  "homepage": "https://github.com/baiyang-lzy/my-bot#readme",
-  "description": "baiyang-lzy's bot, may be used in group chatting"
+  "homepage": "https://github.com/baiyuanneko/my-bot#readme",
+  "description": "baiyuanneko's bot, may be used in group chatting"
 }
