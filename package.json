@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "oicq": "https://github.com/takayama-lily/oicq.git"
+    "icqq": "^0.3.15"
   },
   "name": "my-bot",
   "version": "1.0.0",
