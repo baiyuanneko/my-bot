@@ -187,5 +187,6 @@ switch (login_via) {
 }
 
 process.on("unhandledRejection", (rejection_reason, rejection_promise) => {
-    console.log(`[ERROR] Unhandled Rejection: ${rejection_reason}`);
+    console.log(`[ERROR] The reason is specified as follow.`)
+    console.log(rejection_reason);
 })
